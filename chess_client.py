@@ -1,5 +1,5 @@
-import sys
 import copy
+import requests
 import pygame
 pygame.init()
 screen = pygame.display.set_mode((800, 800))
@@ -8,23 +8,23 @@ class ChessField:
         self.board = [[0]*8 for _ in range(8)]
         for i in range(8):
             self.board[i][1] = 1
-            self.board[i][6] = 1
+            self.board[i][6] = -1
         self.board[0][0]=4
         self.board[7][0]=4
-        self.board[0][7]=4
-        self.board[7][7]=4
+        self.board[0][7]=-4
+        self.board[7][7]=-4
         self.board[1][0]=2
-        self.board[1][7]=2
+        self.board[1][7]=-2
         self.board[6][0]=2
-        self.board[6][7]=2
+        self.board[6][7]=-2
         self.board[2][0]=3
-        self.board[2][7]=3
+        self.board[2][7]=-3
         self.board[5][0]=3
-        self.board[5][7]=3
+        self.board[5][7]=-3
         self.board[4][0]=5
-        self.board[4][7]=5
+        self.board[4][7]=-5
         self.board[3][0]=6
-        self.board[3][7]=6
+        self.board[3][7]=-6
         self.boards = [copy.deepcopy(self.board)]
     def draw(self):
         for i in range(len(self.board)):
@@ -58,7 +58,7 @@ piece_selected = None
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            sys.exit()
+            exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             x, y = pygame.mouse.get_pos()
             if piece_selected is None:
