@@ -29,25 +29,37 @@ def move(from_x, from_y, to_x, to_y):
     from_x, from_y, to_x, to_y = int(from_x), int(from_y), int(to_x), int(to_y)
     if Field[from_x][from_y] == 1:
         if Field[to_x][to_y] == 0 and to_y == from_y + 1 and to_x == from_x:
+            Field[to_x][to_y] = Field[from_x][from_y]
+            Field[from_x][from_y] = 0
             return "ok"
         if Field[to_x][to_y] != 0 and to_y == from_y + 1 and (to_x == from_x + 1 or to_x == from_x - 1):
+            Field[to_x][to_y] = Field[from_x][from_y]
+            Field[from_x][from_y] = 0
             return "ok"
         else:
             return "ne_ok"
     if Field[from_x][from_y] == -1:
         if Field[to_x][to_y] == 0 and to_y == from_y - 1 and to_x == from_x:
+            Field[to_x][to_y] = Field[from_x][from_y]
+            Field[from_x][from_y] = 0
             return "ok"
         if Field[to_x][to_y] != 0 and to_y == from_y - 1 and (to_x == from_x + 1 or to_x == from_x - 1):
+            Field[to_x][to_y] = Field[from_x][from_y]
+            Field[from_x][from_y] = 0
             return "ok"
         else:
             return "ne_ok"
     if Field[from_x][from_y] == 2:
         if Field[to_x][to_y] < 1 and ((abs(to_y - from_y) == 1 and abs(to_x - from_x) == 2) or (abs(to_y - from_y) == 2 and abs(to_x - from_x) == 1)):
+            Field[to_x][to_y] = Field[from_x][from_y]
+            Field[from_x][from_y] = 0
             return "ok"
         else:
             return "ne_ok"
     if Field[from_x][from_y] == -2:
         if Field[to_x][to_y] >= 0 and ((abs(to_y - from_y) == 1 and abs(to_x - from_x) == 2) or (abs(to_y - from_y) == 2 and abs(to_x - from_x) == 1)):
+            Field[to_x][to_y] = Field[from_x][from_y]
+            Field[from_x][from_y] = 0
             return "ok"
         else:
             return "ne_ok"
