@@ -1,4 +1,5 @@
-from flask import Flask
+import random
+from flask import Flask, request
 import copy
 
 app = Flask(__name__)
@@ -27,12 +28,25 @@ Field[3][7] = 6
 Fields = [copy.deepcopy(Field)]
 
 @app.route('/move/<from_x>/<from_y>/<to_x>/<to_y>/<move>')
-def move(from_x, from_y, to_x, to_y,move):
+def move(from_x, from_y, to_x, to_y, move):
+    s = request.args.get('select')
     from_x, from_y, to_x, to_y = int(from_x), int(from_y), int(to_x), int(to_y)
     if Field[from_x][from_y] * Field[to_x][to_y] > 0:
         return "ne_ok"
     if Field[from_x][from_y] in (1, -1):
         if Field[to_x][to_y] == 0 and to_y == from_y - 1 * Field[from_x][from_y] and to_x == from_x:
+            if move == "true":
+                Field[to_x][to_y] = Field[from_x][from_y]
+                if to_y == 0:
+                    Field[to_x][to_y] = random.randint(2,6)
+                    print("yay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\n")
+                if to_y == 7:
+                    Field[to_x][to_y] = random.randint(-6,-2)
+                    print("yay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\nyay\n")
+                Field[from_x][from_y] = 0
+                Fields.append(copy.deepcopy(Field))
+            return "ok"
+        if Field[from_y - 1 * Field[from_x][from_y]][from_x] == 0 and from_y - 2 * Field[from_x][from_y] == to_y and from_y in (1, 6) and to_x == from_x:
             if move == "true":
                 Field[to_x][to_y] = Field[from_x][from_y]
                 Field[from_x][from_y] = 0
