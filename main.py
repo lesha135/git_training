@@ -135,6 +135,9 @@ class Game():
 
 games = []
 
+@app.route('/')
+def home():
+    return "Chess Server is running! Use /crate_game/<true|false> to start a game."
 
 @app.route('/crate_game/<normal_chess>')
 def crate_game(normal_chess):
