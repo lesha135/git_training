@@ -109,13 +109,17 @@ class ChessField:
                 pygame.draw.circle(screen1, (135, 206, 235, 170), ((i % 8) * 100 + 50, (i // 8) * 100 + 50), 20)
 
     def move(self, from_x, from_y, to_x, to_y):
+        global update_clock
         if requests.get(f"{api}/move/{id}/{from_x}/{from_y}/{to_x}/{to_y}/true").text == "ok":
-            self.board[to_x][to_y] = self.board[from_x][from_y]
-            self.board[from_x][from_y] = 0
+            self.board = json.loads(requests.get(f'{api}/show/{id}').text)
+            update_clock = 10
+
 
     def back_move(self):
+        global update_clock
         requests.get(f"{api}/reverse/{id}")
-
+        self.board = json.loads(requests.get(f'{api}/show/{id}').text)
+        update_clock = 10
 
 manager = pygame_gui.UIManager((800, 800))
 input_box = pygame_gui.elements.UITextEntryLine(
