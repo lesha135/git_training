@@ -1,4 +1,7 @@
 import requests
+from pygame.display import update
+
+import search
 import pygame
 import json
 import pygame_gui
@@ -58,7 +61,12 @@ class ChessField:
         self.board = [[0] * 8 for _ in range(8)]
 
     def draw(self):
-        self.board = json.loads(requests.get(f'{api}/show/{id}').text)
+        global update_clock
+        if update_clock == 0:
+            self.board = json.loads(requests.get(f'{api}/show/{id}').text)
+            update_clock = 10
+        else:
+            update_clock -= 1
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
                 pygame.draw.rect(screen, (212 + 33 * ((i + j) % 2), 174 + 48 * ((i + j) % 2), 125 + 54 * ((i + j) % 2)),
@@ -90,10 +98,13 @@ class ChessField:
                 if self.board[i][j] == -6:
                     screen.blit(piece_b6, (i * 100 + 5, j * 100 + 5))
         if piece_selected is not None:
-            ls = (requests.get(f"{api}/search/{id}/{piece_selected[0]}/{piece_selected[1]}").text).split(" ")
-            if ls == [""]:
+            ls = search.search(self.board, piece_selected[0], piece_selected[1])
+            #ls = (requests.get(f"{api}/search/{id}/{piece_selected[0]}/{piece_selected[1]}").text).split(" ")
+            # if ls == [""]:
+            #     return None
+            #ls = list(map(int, ls))
+            if ls is None:
                 return None
-            ls = list(map(int, ls))
             for i in ls:
                 pygame.draw.circle(screen1, (135, 206, 235, 170), ((i % 8) * 100 + 50, (i // 8) * 100 + 50), 20)
 
@@ -123,6 +134,7 @@ norm_chess_button = Button(140, 625, 250, 75, (125, 125, 125), "chess")
 not_norm_chess_button = Button(410, 625, 250, 75, (255, 255, 255), "drunck chess")
 id = None
 norm_chess = "true"
+update_clock = 0
 while True:
     time_delta = clock.tick(60) / 1000
     for event in pygame.event.get():
