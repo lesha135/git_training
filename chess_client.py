@@ -3,7 +3,7 @@ import pygame
 import json
 import pygame_gui
 
-api = "http://127.0.0.1:5000"
+api = "https://juravlik.pythonanywhere.com"
 piece_w1 = pygame.image.load("Chess_plt45.svg.png")
 piece_w2 = pygame.image.load("Chess_nlt45.svg.png")
 piece_w3 = pygame.image.load("Chess_blt45.svg.png")
